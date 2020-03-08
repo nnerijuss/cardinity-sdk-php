@@ -47,10 +47,11 @@ class SettlementTest extends ClientTestCase
 
     /**
      * @depends testCreatePayment
-     * @expectedException Cardinity\Exception\Declined
      */
     public function testCreateFail(Payment\Payment $payment)
     {
+        $this->expectException(\Cardinity\Exception\Declined::class);
+
         $method = new Settlement\Create(
             $payment->getId(),
             10.00,
