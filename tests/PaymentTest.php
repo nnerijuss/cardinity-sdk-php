@@ -53,11 +53,12 @@ class PaymentTest extends ClientTestCase
     }
 
     /**
-     * @expectedException Cardinity\Exception\InvalidAttributeValue
      * @dataProvider invalidAmountValuesData
      */
     public function testAmountValidationConstraint($amount)
     {
+        $this->expectException(\Cardinity\Exception\InvalidAttributeValue::class);
+
         $params = $this->getPaymentParams();
         $params['amount'] = $amount;
         $method = new Payment\Create($params);
@@ -72,11 +73,10 @@ class PaymentTest extends ClientTestCase
         ];
     }
 
-    /**
-     * @expectedException Cardinity\Exception\InvalidAttributeValue
-     */
     public function testMissingRequiredAttribute()
     {
+        $this->expectException(\Cardinity\Exception\InvalidAttributeValue::class);
+
         $params = $this->getPaymentParams();
         unset($params['currency']);
         $method = new Payment\Create($params);
@@ -102,7 +102,7 @@ class PaymentTest extends ClientTestCase
             $this->assertSame('declined', $result->getStatus());
             $this->assertSame(true, $result->isDeclined());
             $this->assertSame('CRD-TEST: Do Not Honor', $result->getError());
-            $this->assertContains('status: CRD-TEST: Do Not Honor;', $e->getErrorsAsString());
+            $this->assertStringContainsString('status: CRD-TEST: Do Not Honor;', $e->getErrorsAsString());
 
             return;
         }
@@ -134,10 +134,11 @@ class PaymentTest extends ClientTestCase
 
     /**
      * Invalid data. Generic handling.
-     * @expectedException Cardinity\Exception\ValidationFailed
      */
     public function testCreateFailMonthValidation()
     {
+        $this->expectException(\Cardinity\Exception\ValidationFailed::class);
+
         $params = $this->getPaymentParams();
         $params['payment_instrument']['exp_month'] = 13;
 
@@ -234,7 +235,7 @@ class PaymentTest extends ClientTestCase
             $this->assertInstanceOf('Cardinity\Method\Payment\Payment', $result);
             $this->assertSame('declined', $result->getStatus());
             $this->assertSame(true, $result->isDeclined());
-            $this->assertContains('status: 33333: 3D Secure Authorization Failed.;', $e->getErrorsAsString());
+            $this->assertStringContainsString('status: 33333: 3D Secure Authorization Failed.;', $e->getErrorsAsString());
 
             return;
         }

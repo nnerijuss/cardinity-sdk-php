@@ -4,6 +4,7 @@ build/
 specs/
 phpunit.xml
 phpspec.yml
+.phpunit.result.cache
 tests/info.log
 composer.lock
 .idea/

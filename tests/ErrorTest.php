@@ -25,17 +25,16 @@ class ErrorTest extends ClientTestCase
             $this->assertInstanceOf('Cardinity\Method\Error', $result);
             $this->assertSame('https://developers.cardinity.com/api/v1/#400', $result->getType());
             $this->assertSame('Validation Failed', $result->getTitle());
-            $this->assertContains('validation errors', $result->getDetail());
+            $this->assertStringContainsString('validation errors', $result->getDetail());
             $this->assertTrue(is_array($result->getErrors()));
             $this->assertNotEmpty($result->getErrors());
         }
     }
 
-    /**
-     * @expectedException Cardinity\Exception\Unauthorized
-     */
     public function testUnauthorizedResponse()
     {
+        $this->expectException(\Cardinity\Exception\Unauthorized::class);
+
         $client = Client::create([
             'consumerKey' => 'no',
             'consumerSecret' => 'yes',
@@ -46,11 +45,10 @@ class ErrorTest extends ClientTestCase
         $client->call($method);
     }
 
-    /**
-     * @expectedException Cardinity\Exception\ValidationFailed
-     */
     public function testBadRequest()
     {
+        $this->expectException(\Cardinity\Exception\ValidationFailed::class);
+
         $method = $this
             ->getMockBuilder('Cardinity\Method\Payment\Get')
             ->disableOriginalConstructor()
@@ -63,11 +61,10 @@ class ErrorTest extends ClientTestCase
         $this->client->call($method);
     }
 
-    /**
-     * @expectedException Cardinity\Exception\NotFound
-     */
     public function testNotFound()
     {
+        $this->expectException(\Cardinity\Exception\NotFound::class);
+
         $method = $this
             ->getMockBuilder('Cardinity\Method\Payment\Get')
             ->disableOriginalConstructor()
@@ -80,11 +77,10 @@ class ErrorTest extends ClientTestCase
         $this->client->call($method);
     }
 
-    /**
-     * @expectedException Cardinity\Exception\MethodNotAllowed
-     */
     public function testMethodNotAllowed()
     {
+        $this->expectException(\Cardinity\Exception\MethodNotAllowed::class);
+
         $method = $this
             ->getMockBuilder('Cardinity\Method\Payment\Get')
             ->disableOriginalConstructor()
