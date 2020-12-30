@@ -31,3 +31,5 @@ class ThreeDS2AuthorizationInformationSpec extends ObjectBehavior
         $this->getCReq()->shouldReturn($this->tds2_data['creq']);
     }
 }
+
+

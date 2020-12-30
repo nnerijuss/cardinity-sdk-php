@@ -44,7 +44,7 @@ class PaymentSpec extends ObjectBehavior
 
     function it_is_able_to_unserialize_card_payment_instrument()
     {
-        $json = '{"payment_method":"card","payment_instrument":{"card_brand":"Visa","pan":"4447","exp_year":2021,"exp_month":5,"holder":"John Smith"}}';
+        $json = '{"payment_method":"card","payment_instrument":{"card_brand":"Visa","pan":"4447","exp_year":2024,"exp_month":5,"holder":"John Smith"}}';
         $this->unserialize($json);
 
         $this->getPaymentMethod()->shouldReturn('card');
@@ -70,9 +70,9 @@ class PaymentSpec extends ObjectBehavior
         $tds2Auth->setAcsUrl('https://acs.cardinity.com/v2/');
         $tds2Auth->setCreq('eyJyZXR1c...');
 
-        $this->setThreeDS2AuthorizationInformation($tds2Auth);
-        $this->getThreeDS2AuthorizationInformation()->shouldReturnAnInstanceOf('Cardinity\Method\Payment\ThreeDS2AuthorizationInformation');
-        $this->getThreeDS2AuthorizationInformation()->shouldReturn($tds2Auth);
+        $this->setThreeds2Data($tds2Auth);
+        $this->getThreeds2Data()->shouldReturnAnInstanceOf('Cardinity\Method\Payment\ThreeDS2AuthorizationInformation');
+        $this->getThreeds2Data()->shouldReturn($tds2Auth);
 
     }
 
@@ -83,12 +83,13 @@ class PaymentSpec extends ObjectBehavior
         $tds2Auth->setAcsUrl('https://acs.cardinity.com/v2/');
         $tds2Auth->setCreq('eyJyZXR1c...');
 
-        $this->setThreeDS2AuthorizationInformation($tds2Auth);
-        $this->getThreeDS2AuthorizationInformation()->shouldReturnAnInstanceOf('Cardinity\Method\Payment\ThreeDS2AuthorizationInformation');
-        $this->getThreeDS2AuthorizationInformation()->shouldReturn($tds2Auth);
+        $this->setThreeds2Data($tds2Auth);
+        $this->getThreeds2Data()->shouldReturnAnInstanceOf('Cardinity\Method\Payment\ThreeDS2AuthorizationInformation');
+        $this->getThreeds2Data()->shouldReturn($tds2Auth);
 
-        $this->getThreeDS2AuthorizationInformation()->serialize()->shouldReturn($json);
+        $this->getThreeds2Data()->serialize()->shouldReturn($json);
     }
+
 
     function it_handles_unexpected_values()
     {
