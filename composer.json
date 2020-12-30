@@ -8,7 +8,7 @@
         "php"                       : ">=7.2.5",
         "guzzlehttp/guzzle"         : "^7.0.1",
         "guzzlehttp/oauth-subscriber": "^0.4",
-        "symfony/validator"         : "Š5.0"
+        "symfony/validator"         : "^5.0"
     },
     "require-dev": {
         "monolog/monolog"           : "~1.0",
